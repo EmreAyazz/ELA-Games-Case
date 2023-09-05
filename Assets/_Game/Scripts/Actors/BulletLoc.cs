@@ -5,4 +5,5 @@ using UnityEngine;
 public class BulletLoc : MonoBehaviour
 {
     public GameObject myBullet;
+    public int level;
 }

@@ -496,6 +496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &345059750
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,6 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &420123547
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +724,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullets: {fileID: 1686761394}
+  bulletLevels:
+  - {fileID: 2100000, guid: 5d3c2460660c019498de58eba719b680, type: 2}
+  - {fileID: 2100000, guid: 78a3e180bf619994693c4c743eac2bbf, type: 2}
+  - {fileID: 2100000, guid: cc65e03f9c5e6b34ab04c46f3c4d9be3, type: 2}
+  - {fileID: 2100000, guid: cf4512a9edc8cdf478080a762d193e66, type: 2}
+  - {fileID: 2100000, guid: cf17fbfacb372e141a036d2e3792b3ed, type: 2}
 --- !u!4 &420123549
 Transform:
   m_ObjectHideFlags: 0
@@ -857,6 +865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &593798385
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,6 +986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &633338049
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,6 +1107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &636898799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,6 +1228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &686176812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,6 +1349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1684,6 +1697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,6 +2076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1219586359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2182,6 +2197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1227780624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2302,6 +2318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1233277710
 GameObject:
   m_ObjectHideFlags: 0
@@ -2422,6 +2439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1350567491
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,6 +2560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1532803115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2730,6 +2749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1686761393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2901,6 +2921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1925557573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3021,6 +3042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &1963918279
 GameObject:
   m_ObjectHideFlags: 0
@@ -3141,6 +3163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &2075834463
 GameObject:
   m_ObjectHideFlags: 0
@@ -3261,6 +3284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &2105530613
 GameObject:
   m_ObjectHideFlags: 0
@@ -3381,6 +3405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1 &2136574034
 GameObject:
   m_ObjectHideFlags: 0
@@ -3501,6 +3526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myBullet: {fileID: 0}
+  level: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

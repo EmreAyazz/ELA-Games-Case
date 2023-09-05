@@ -8,6 +8,8 @@ public class GameActor : MonoBehaviour
 
     public Transform bullets;
 
+    public Material[] bulletLevels;
+
     private void Awake()
     {
         Instance = this;

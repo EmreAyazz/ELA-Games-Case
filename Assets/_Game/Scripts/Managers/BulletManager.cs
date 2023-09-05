@@ -9,6 +9,72 @@ public class BulletManager : MonoBehaviour
 
     public int bulletPrice;
 
+    RaycastHit hit;
+    GameObject bullet;
+    BulletLoc oldLoc;
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (hit.transform.GetComponent<BulletLoc>())
+                {
+                    oldLoc = hit.transform.GetComponent<BulletLoc>();
+                    bullet = oldLoc.myBullet;
+                    oldLoc.myBullet = null;
+                }
+            }
+        }
+
+        if (Input.GetMouseButton(0) && bullet)
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                bullet.transform.position = new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z); 
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0) && bullet)
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (hit.transform.GetComponent<BulletLoc>())
+                {
+                    BulletLoc bulletLoc = hit.transform.GetComponent<BulletLoc>();
+                    if (!bulletLoc.myBullet)
+                    {
+                        bulletLoc.myBullet = bullet;
+                        bullet.transform.position = bulletLoc.transform.position + new Vector3(0, 0.1f, 0);
+                        bullet = null;
+                        oldLoc = null;
+                    }
+                    else
+                    {
+                        if (bulletLoc.level == oldLoc.level)
+                        {
+                            Destroy(bullet);
+                            bullet = null;
+                            oldLoc = null;
+                            bulletLoc.level++;
+                            bulletLoc.myBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[bulletLoc.level];
+                        }
+                    }
+                }
+                else
+                {
+                    bullet.transform.position = oldLoc.transform.position + new Vector3(0, 0.1f, 0);
+                    bullet = null;
+                    oldLoc = null;
+                }
+            }
+        }
+    }
+
     public void BuyBullet()
     {
         if (CollectableManager.CoinOkay(bulletPrice))
