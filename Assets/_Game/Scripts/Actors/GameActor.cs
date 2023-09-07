@@ -10,6 +10,10 @@ public class GameActor : MonoBehaviour
 
     public Material[] bulletLevels;
 
+    public List<GameObject> guns;
+
+    public List<Transform> walls;
+
     private void Awake()
     {
         Instance = this;
