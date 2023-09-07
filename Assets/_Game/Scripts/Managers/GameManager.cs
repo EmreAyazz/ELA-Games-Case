@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     public static void PlayGun()
     {
-
+        for (int i = 0; i < GameActor.Instance.guns.Count; i++)
+        {
+            GameActor.Instance.guns[i].transform.DOLocalMove(GameActor.Instance.gunPos[i], 1f);
+        }
     }
 }

@@ -10,6 +10,8 @@ public class BulletManager : MonoBehaviour
 
     public int bulletPrice;
 
+    public static int totalBullet;
+
     RaycastHit hit;
     GameObject bullet;
     BulletLoc oldLoc;
@@ -70,6 +72,8 @@ public class BulletManager : MonoBehaviour
                             bulletLoc.myBullet.transform.GetChild(0).GetComponent<TextMeshPro>().text = (bulletLoc.level + 1).ToString();
 
                             bulletLoc.myBullet.GetComponent<Bullet>().health = 100 + (25 * (bulletLoc.level + 1));
+
+                            totalBullet--;
                         }
                         else
                         {
@@ -115,6 +119,8 @@ public class BulletManager : MonoBehaviour
         newBullet.transform.GetChild(0).GetComponent<TextMeshPro>().text = (bulletLoc.level + 1).ToString();
 
         bulletLoc.myBullet = newBullet;
+
+        totalBullet++;
     }
 
     private BulletLoc FindNullBulletPos()
@@ -130,6 +136,16 @@ public class BulletManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public static void BulletControl()
+    {
+        totalBullet--;
+
+        if (totalBullet <= 0)
+        {
+            GameManager.PlayGun();
+        }
     }
 
     public static float[] ListOfAllBullets()

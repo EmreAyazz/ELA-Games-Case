@@ -13,7 +13,6 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         if (go) transform.Translate(Vector3.up * Time.deltaTime * speed);
-
     }
 
     public void Go()
@@ -35,12 +34,16 @@ public class Bullet : MonoBehaviour
 
                 if (health <= 0)
                 {
+                    BulletManager.BulletControl();
+
                     Destroy(gameObject);
                 }
             },
             "Gun" => () =>
             {
                 GameActor.Instance.guns.Add(other.gameObject);
+
+                BulletManager.BulletControl();
 
                 Destroy(gameObject);
             },

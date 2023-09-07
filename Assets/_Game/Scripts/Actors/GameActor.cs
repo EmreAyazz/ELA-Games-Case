@@ -8,6 +8,8 @@ public class GameActor : MonoBehaviour
 
     public Transform bullets;
 
+    public List<Vector3> gunPos;
+
     public Material[] bulletLevels;
 
     public List<GameObject> guns;

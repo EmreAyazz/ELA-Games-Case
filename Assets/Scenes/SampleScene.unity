@@ -1949,6 +1949,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullets: {fileID: 1686761394}
+  gunPos:
+  - {x: 0, y: 0, z: 0}
+  - {x: 1.2, y: 0, z: -1}
+  - {x: -1.2, y: 0, z: -1}
+  - {x: 2.4, y: 0, z: -2}
+  - {x: -2.4, y: 0, z: -2}
   bulletLevels:
   - {fileID: 2100000, guid: 5d3c2460660c019498de58eba719b680, type: 2}
   - {fileID: 2100000, guid: 78a3e180bf619994693c4c743eac2bbf, type: 2}
