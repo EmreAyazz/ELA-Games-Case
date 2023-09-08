@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
     public float speed;
     public float health;
 
+    public int level;
+
     private bool go;
 
     private void Update()
@@ -19,6 +21,9 @@ public class Bullet : MonoBehaviour
     {
         GetComponent<Collider>().enabled = true;
         GetComponent<Collider>().isTrigger = true;
+
+        transform.GetChild(0).gameObject.SetActive(false);
+
         go = true;
     }
 
@@ -41,7 +46,11 @@ public class Bullet : MonoBehaviour
             },
             "Gun" => () =>
             {
+                if (GameManager.controling) return;
+
                 GameActor.Instance.guns.Add(other.gameObject);
+
+                other.GetComponent<Gun>().level = level;
 
                 BulletManager.BulletControl();
 

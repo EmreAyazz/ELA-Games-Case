@@ -16,81 +16,83 @@ public class BulletManager : MonoBehaviour
     GameObject bullet;
     BulletLoc oldLoc;
 
+    private void Start()
+    {
+        Load();
+    }
+
     private void Update()
     {
+        if (GameManager.controling) return;
+
+        RaycastHit hit = TakeHit();
+
         if (Input.GetMouseButtonDown(0))
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (hit.transform.GetComponent<BulletLoc>())
             {
-                if (hit.transform.GetComponent<BulletLoc>())
-                {
-                    oldLoc = hit.transform.GetComponent<BulletLoc>();
-                    bullet = oldLoc.myBullet;
-                    oldLoc.myBullet = null;
-                }
+                oldLoc = hit.transform.GetComponent<BulletLoc>();
+                bullet = oldLoc.myBullet;
+                oldLoc.myBullet = null;
             }
         }
 
         if (Input.GetMouseButton(0) && bullet)
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-            {
-                bullet.transform.position = new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z); 
-            }
+            bullet.transform.position = new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z);
         }
 
         if (Input.GetMouseButtonUp(0) && bullet)
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (hit.transform.GetComponent<BulletLoc>())
             {
-                if (hit.transform.GetComponent<BulletLoc>())
+                BulletLoc bulletLoc = hit.transform.GetComponent<BulletLoc>();
+                if (!bulletLoc.myBullet)
                 {
-                    BulletLoc bulletLoc = hit.transform.GetComponent<BulletLoc>();
-                    if (!bulletLoc.myBullet)
-                    {
-                        bulletLoc.myBullet = bullet;
-                        bullet.transform.position = bulletLoc.transform.position + new Vector3(0, 0.1f, 0);
-                        bulletLoc.level = oldLoc.level;
-                        oldLoc.level = 0;
-                        bullet = null;
-                        oldLoc = null;
-                    }
-                    else
-                    {
-                        if (bulletLoc.level == oldLoc.level)
-                        {
-                            Destroy(bullet);
-                            bullet = null;
-                            oldLoc.level = 0;
-                            oldLoc = null;
-                            bulletLoc.level++;
-                            bulletLoc.myBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[bulletLoc.level];
+                    bulletLoc.myBullet = bullet;
+                    bullet.transform.position = bulletLoc.transform.position + new Vector3(0, 0.1f, 0);
+                    bulletLoc.level = oldLoc.level;
+                    oldLoc.level = 0;
+                    bullet = null;
+                    oldLoc = null;
 
-                            bulletLoc.myBullet.transform.GetChild(0).GetComponent<TextMeshPro>().text = (bulletLoc.level + 1).ToString();
-
-                            bulletLoc.myBullet.GetComponent<Bullet>().health = 100 + (25 * (bulletLoc.level + 1));
-
-                            totalBullet--;
-                        }
-                        else
-                        {
-                            bullet.transform.position = oldLoc.transform.position + new Vector3(0, 0.1f, 0);
-                            oldLoc.myBullet = bullet;
-                            bullet = null;
-                            oldLoc = null;
-                        }
-                    }
+                    Save();
                 }
                 else
                 {
-                    bullet.transform.position = oldLoc.transform.position + new Vector3(0, 0.1f, 0);
-                    oldLoc.myBullet = bullet;
-                    bullet = null;
-                    oldLoc = null;
+                    if (bulletLoc.level == oldLoc.level)
+                    {
+                        Destroy(bullet);
+                        bullet = null;
+                        oldLoc.level = 0;
+                        oldLoc = null;
+                        bulletLoc.level++;
+                        bulletLoc.myBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[bulletLoc.level];
+
+                        bulletLoc.myBullet.transform.GetChild(0).GetComponent<TextMeshPro>().text = (bulletLoc.level + 1).ToString();
+
+                        bulletLoc.myBullet.GetComponent<Bullet>().health = 100 + (25 * (bulletLoc.level + 1));
+                        bulletLoc.myBullet.GetComponent<Bullet>().level = (bulletLoc.level + 1);
+
+                        totalBullet--;
+
+                        Save();
+                    }
+                    else
+                    {
+                        bullet.transform.position = oldLoc.transform.position + new Vector3(0, 0.1f, 0);
+                        oldLoc.myBullet = bullet;
+                        bullet = null;
+                        oldLoc = null;
+                    }
                 }
+            }
+            else
+            {
+                bullet.transform.position = oldLoc.transform.position + new Vector3(0, 0.1f, 0);
+                oldLoc.myBullet = bullet;
+                bullet = null;
+                oldLoc = null;
             }
         }
     }
@@ -109,18 +111,54 @@ public class BulletManager : MonoBehaviour
     {
         BulletLoc bulletLoc = FindNullBulletPos();
 
-        GameObject bulletPrefab = Resources.Load<GameObject>("Bullet");
+        bulletLoc.SetBullet();
 
-        Vector3 height = new Vector3(0, 0.1f, 0);
-        Vector3 rot = new Vector3(90f, 0, 0);
+        Save();
+    }
 
-        GameObject newBullet = Instantiate(bulletPrefab, bulletLoc.transform.position + height, Quaternion.Euler(rot));
+    public void Save()
+    {
+        BulletLoc[] bulletlocs = GameActor.Instance.bullets.transform.GetComponentsInChildren<BulletLoc>();
 
-        newBullet.transform.GetChild(0).GetComponent<TextMeshPro>().text = (bulletLoc.level + 1).ToString();
+        for (int i = 0; i < bulletlocs.Length; i++)
+        {
+            if (bulletlocs[i].myBullet)
+                PlayerPrefs.SetInt($"BulletLoc{i}", bulletlocs[i].level);
+            else
+            {
+                if (PlayerPrefs.HasKey($"BulletLoc{i}"))
+                {
+                    PlayerPrefs.DeleteKey($"BulletLoc{i}");
+                }
+            }
+        }
+    }
 
-        bulletLoc.myBullet = newBullet;
+    public void Load()
+    {
+        BulletLoc[] bulletlocs = GameActor.Instance.bullets.transform.GetComponentsInChildren<BulletLoc>();
 
-        totalBullet++;
+        for (int i = 0; i < bulletlocs.Length; i++)
+        {
+            if (PlayerPrefs.HasKey($"BulletLoc{i}"))
+            {
+                bulletlocs[i].level = PlayerPrefs.GetInt($"BulletLoc{i}");
+                bulletlocs[i].SetBullet();
+            }
+        }
+    }
+
+    private RaycastHit TakeHit()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            return hit;
+        }
+        else
+        {
+            return hit;
+        }
     }
 
     private BulletLoc FindNullBulletPos()
