@@ -11,6 +11,7 @@ public class GameActor : MonoBehaviour
     public Transform bullets;
     public Transform gun;
     public GameObject bulletPrefab;
+    public GameObject missilePrefab;
 
     [Header("All Of List")]
     public List<Vector3> gunPos;

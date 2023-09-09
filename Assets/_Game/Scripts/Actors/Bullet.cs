@@ -27,6 +27,16 @@ public class Bullet : MonoBehaviour
         go = true;
     }
 
+    public void Range(float time)
+    {
+        float value = time / 10f;
+        Invoke("DestroyIt", value);
+    }
+    private void DestroyIt()
+    {
+        Destroy(gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Action action = other.tag switch

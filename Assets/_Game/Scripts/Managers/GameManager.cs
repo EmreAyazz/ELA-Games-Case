@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gun = GameActor.Instance.gun;
+        range = 5f;
     }
 
     public void Update()
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour
 
         while (true)
         {
-            float fireCoolDown = Mathf.Clamp((100 - fireRate) / 100f, 0.1f, 1f);
+            float fireCoolDown = Mathf.Clamp((200 - fireRate) / 200f, 0.1f, 1f);
 
             yield return new WaitForSeconds(fireCoolDown);
 
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
                     newBullet.GetComponent<Bullet>().speed = 10f;
 
                     newBullet.GetComponent<Bullet>().level = gun.GetComponent<Gun>().level;
+                    newBullet.GetComponent<Bullet>().Range(range);
 
                     newBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[gun.GetComponent<Gun>().level];
 
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour
                         newBullet.GetComponent<Bullet>().speed = 10f;
 
                         newBullet.GetComponent<Bullet>().level = gun.GetComponent<Gun>().level;
+                        newBullet.GetComponent<Bullet>().Range(range);
 
                         newBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[gun.GetComponent<Gun>().level];
 
@@ -120,13 +123,15 @@ public class GameManager : MonoBehaviour
 
     public static void PlayGun()
     {
-        for (int i = 0; i < GameActor.Instance.gun.childCount; i++)
+        for (int i = GameActor.Instance.gun.childCount - 1; i >= 0; i--)
         {
             GameObject gun = GameActor.Instance.gun.GetChild(i).gameObject;
-            if (!GameActor.Instance.guns.Exists(o => o == gun))
+            bool found = false;
+            foreach (GameObject obj in GameActor.Instance.guns)
             {
-                gun.transform.SetParent(null);
+                if (obj == gun) found = true;
             }
+            if (!found) gun.transform.SetParent(null);
         }
 
         for (int i = 0; i < GameActor.Instance.guns.Count; i++)
@@ -139,5 +144,7 @@ public class GameManager : MonoBehaviour
         GameActor.Instance.gunCam.SetActive(false);
 
         controling = true;
+
+        MissileManager.Instance.StartSpawner();
     }
 }
