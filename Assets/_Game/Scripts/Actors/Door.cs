@@ -8,11 +8,21 @@ public class Door : MonoBehaviour
     public DoorType type;
     public int value;
 
+    TextMeshPro valueText;
+    TextMeshPro nameText;
+    GameObject door;
+
     private void Start()
     {
-        transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>().text = value.ToString();
+        valueText = transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>();
+        nameText = transform.GetChild(1).GetComponent<TextMeshPro>();
+        door = transform.GetChild(0).gameObject;
 
-        if (value >= 0) transform.GetChild(0).GetComponent<Renderer>().material.color = Color.green;
+        valueText.text = value.ToString();
+
+        if (value >= 0) door.GetComponent<Renderer>().material.color = Color.green;
+
+        nameText.text = type.ToString();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,9 +33,9 @@ public class Door : MonoBehaviour
 
             value += other.gameObject.GetComponent<Bullet>().level;
 
-            if (value >= 0) transform.GetChild(0).GetComponent<Renderer>().material.color = Color.green;
+            if (value >= 0) door.GetComponent<Renderer>().material.color = Color.green;
 
-            transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>().text = value.ToString();
+            valueText.text = value.ToString();
 
             Destroy(other.gameObject);
         }
