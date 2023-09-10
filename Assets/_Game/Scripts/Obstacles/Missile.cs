@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.up * Time.deltaTime * 5f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Gun"))
+        {
+            LevelManager.LevelFailed();
+        }
     }
 }

@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameActor : MonoBehaviour
@@ -12,6 +13,12 @@ public class GameActor : MonoBehaviour
     public Transform gun;
     public GameObject bulletPrefab;
     public GameObject missilePrefab;
+
+    [Header("Level UI")]
+    public GameObject inGame;
+    public GameObject levelCompleted;
+    public GameObject levelFailed;
+    public TextMeshProUGUI moneyText;
 
     [Header("All Of List")]
     public List<Vector3> gunPos;

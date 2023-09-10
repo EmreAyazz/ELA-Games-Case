@@ -25,6 +25,8 @@ namespace Collectable
         {
             coin += count;
 
+            GameActor.Instance.moneyText.text = $"${coin}";
+
             PlayerPrefs.SetInt("Coin", coin);
 
             //OnCoinChanged.Invoke();
@@ -43,6 +45,12 @@ namespace Collectable
         {
             if (coin >= count) return true;
             else return false;
+        }
+
+        public static void Load()
+        {
+            if (PlayerPrefs.HasKey("Coin")) coin = PlayerPrefs.GetInt("Coin");
+            else coin = 100;
         }
     }
 }

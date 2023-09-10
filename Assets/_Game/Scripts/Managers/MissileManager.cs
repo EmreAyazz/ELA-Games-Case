@@ -30,7 +30,7 @@ public class MissileManager : MonoBehaviour
 
             Vector3 spawnPos = (GameActor.Instance.gun.position + (GameActor.Instance.gun.forward * 20f));
 
-            GameObject newMissile = Instantiate(GameActor.Instance.missilePrefab, spawnPos, Quaternion.Euler(-90f, 0f, 0f));
+            GameObject newMissile = Instantiate(GameActor.Instance.missilePrefab, spawnPos, Quaternion.Euler(-90f, 0f, 0f), LevelManager.currentLevel.transform);
         }
     }
 }

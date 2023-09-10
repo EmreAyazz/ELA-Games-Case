@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     public static bool controling;
 
     public static bool tripleShot;
@@ -20,9 +22,13 @@ public class GameManager : MonoBehaviour
     private Transform gun;
     private float pos_MouseX, pos_PlayerX;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
-        gun = GameActor.Instance.gun;
         range = 5f;
     }
 
@@ -38,14 +44,23 @@ public class GameManager : MonoBehaviour
             }
             if (Input.GetMouseButton(0))
             {
-                gun.transform.position = FindPos();
-                gun.Translate(gunSpeed * Time.deltaTime * Vector3.forward);
+                GameActor.Instance.gun.transform.position = FindPos();
+                GameActor.Instance.gun.Translate(gunSpeed * Time.deltaTime * Vector3.forward);
             }
             if (Input.GetMouseButtonUp(0))
             {
                 StopAllCoroutines();
             }
         }
+    }
+
+    public void Stop()
+    {
+        controling = false;
+
+        isGameFinished = true;
+
+        StopAllCoroutines();
     }
 
     public IEnumerator Fire()
@@ -64,7 +79,7 @@ public class GameManager : MonoBehaviour
             {
                 if (!tripleShot)
                 {
-                    GameObject newBullet = Instantiate(bullet, gun.transform.GetChild(0).position, Quaternion.Euler(90f, 0f, 0f));
+                    GameObject newBullet = Instantiate(bullet, gun.transform.GetChild(0).position, Quaternion.Euler(90f, 0f, 0f), LevelManager.currentLevel.transform);
 
                     newBullet.GetComponent<Bullet>().Go();
                     newBullet.GetComponent<Bullet>().speed = 10f;
@@ -72,7 +87,7 @@ public class GameManager : MonoBehaviour
                     newBullet.GetComponent<Bullet>().level = gun.GetComponent<Gun>().level;
                     newBullet.GetComponent<Bullet>().Range(range);
 
-                    newBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[gun.GetComponent<Gun>().level];
+                    newBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[gun.GetComponent<Gun>().level - 1];
 
                     if (bulletSizeUp) newBullet.transform.localScale = newBullet.transform.localScale * 2f;
                 }
@@ -80,7 +95,7 @@ public class GameManager : MonoBehaviour
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        GameObject newBullet = Instantiate(bullet, gun.transform.GetChild(0).position, Quaternion.Euler(90f, 0f, -15f + (i * 15f)));
+                        GameObject newBullet = Instantiate(bullet, gun.transform.GetChild(0).position, Quaternion.Euler(90f, 0f, -15f + (i * 15f)), LevelManager.currentLevel.transform);
 
                         newBullet.GetComponent<Bullet>().Go();
                         newBullet.GetComponent<Bullet>().speed = 10f;
@@ -99,8 +114,8 @@ public class GameManager : MonoBehaviour
 
     public Vector3 FindPos()
     {
-        float x = Mathf.Clamp(pos_PlayerX + (Input.mousePosition.x - pos_MouseX) / 100f, -0.75f, 0.75f);
-        Vector3 pos = new Vector3(x, gun.transform.position.y, gun.transform.position.z);
+        float x = Mathf.Clamp(pos_PlayerX + (Input.mousePosition.x - pos_MouseX) / 100f, -1.33f, 1.33f);
+        Vector3 pos = new Vector3(x, GameActor.Instance.gun.transform.position.y, GameActor.Instance.gun.transform.position.z);
 
         return pos;
     }
@@ -119,6 +134,8 @@ public class GameManager : MonoBehaviour
         GameActor.Instance.mainCam.m_DefaultBlend.m_Time = 4f;
         GameActor.Instance.gunCam.SetActive(true);
         GameActor.Instance.mergeCam.SetActive(false);
+
+        GameActor.Instance.inGame.SetActive(false);
     }
 
     public static void PlayGun()
@@ -131,7 +148,11 @@ public class GameManager : MonoBehaviour
             {
                 if (obj == gun) found = true;
             }
-            if (!found) gun.transform.SetParent(null);
+            if (!found)
+            {
+                gun.transform.SetParent(LevelManager.currentLevel.transform);
+                gun.tag = "Untagged";
+            }
         }
 
         for (int i = 0; i < GameActor.Instance.guns.Count; i++)
@@ -146,5 +167,13 @@ public class GameManager : MonoBehaviour
         controling = true;
 
         MissileManager.Instance.StartSpawner();
+    }
+
+    public static void Clear()
+    {
+        bulletSizeUp = false;
+        tripleShot = false;
+        fireRate = 0f;
+        range = 5f;
     }
 }

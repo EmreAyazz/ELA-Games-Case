@@ -201,18 +201,36 @@ public class BulletManager : MonoBehaviour
     {
         float[] list = ListOfAllBullets();
 
+        int rnd = 0;
+
         for (int i = 0; i < 5; i++)
         {
             Transform wall = GameActor.Instance.walls[i];
 
-            float totalHealth = Random.Range(0, 2) == 0 ? list[i] + 5f : list[i] - 10f; 
-            float health = totalHealth / wall.childCount;
-
-            foreach (Transform obj in wall.transform)
+            if(rnd > 2)
             {
-                obj.GetComponent<Wall>().health = health;
-                obj.GetComponent<Wall>().SetColor();
+                float totalHealth = Random.Range(0, 2) == 0 ? list[i] + 5f : list[i] - 10f;
+                float health = totalHealth / wall.childCount;
+
+                foreach (Transform obj in wall.transform)
+                {
+                    obj.GetComponent<Wall>().health = health;
+                    obj.GetComponent<Wall>().SetColor();
+                }
             }
+            else
+            {
+                float totalHealth = list[i] - 10f;
+                float health = totalHealth / wall.childCount;
+
+                foreach (Transform obj in wall.transform)
+                {
+                    obj.GetComponent<Wall>().health = health;
+                    obj.GetComponent<Wall>().SetColor();
+                }
+            }
+
+            rnd++;
         }
     }
 }

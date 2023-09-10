@@ -1,3 +1,4 @@
+using Collectable;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,6 +46,8 @@ public class Bullet : MonoBehaviour
             {
                 Destroy(other.gameObject);
 
+                CollectableManager.AddCoin(10);
+
                 health -= other.GetComponent<Wall>().health;
 
                 if (health <= 0)
@@ -56,7 +59,7 @@ public class Bullet : MonoBehaviour
             },
             "Gun" => () =>
             {
-                if (GameManager.controling) return;
+                if (GameManager.controling || GameManager.isGameFinished) return;
 
                 GameActor.Instance.guns.Add(other.gameObject);
 

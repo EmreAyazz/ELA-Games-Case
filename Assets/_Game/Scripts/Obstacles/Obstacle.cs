@@ -1,3 +1,4 @@
+using Collectable;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,6 +7,15 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     public int health;
+
+    int coin;
+
+    private void Start()
+    {
+        transform.GetChild(1).GetComponent<TextMeshPro>().text = health.ToString();
+
+        coin = health;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -20,7 +30,13 @@ public class Obstacle : MonoBehaviour
             if (health <= 0)
             {
                 Explosion();
+
+                CollectableManager.AddCoin(coin);
             }
+        }
+        if (other.CompareTag("Gun"))
+        {
+            if (!GameManager.isGameFinished) LevelManager.LevelFailed();
         }
     }
 
