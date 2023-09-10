@@ -19,6 +19,7 @@ public class GameActor : MonoBehaviour
     public GameObject levelCompleted;
     public GameObject levelFailed;
     public TextMeshProUGUI moneyText;
+    public TextMeshProUGUI shieldText;
 
     [Header("All Of List")]
     public List<Vector3> gunPos;

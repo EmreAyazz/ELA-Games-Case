@@ -35,6 +35,8 @@ namespace Collectable
         {
             shield += count;
 
+            GameActor.Instance.shieldText.text = $"Shield : {shield}";
+
             PlayerPrefs.SetInt("Shield", shield);
 
             //OnShieldChanged.Invoke();
@@ -51,6 +53,8 @@ namespace Collectable
         {
             if (PlayerPrefs.HasKey("Coin")) coin = PlayerPrefs.GetInt("Coin");
             else coin = 100;
+
+            GameActor.Instance.moneyText.text = $"${coin}";
         }
     }
 }

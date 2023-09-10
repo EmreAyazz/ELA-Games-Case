@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Gun
   - Obstacle
+  - Shield
   layers:
   - Default
   - TransparentFX

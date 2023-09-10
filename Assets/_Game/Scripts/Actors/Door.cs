@@ -23,6 +23,8 @@ public class Door : MonoBehaviour
         if (value >= 0) door.GetComponent<Renderer>().material.color = Color.green;
 
         nameText.text = type.ToString();
+
+        if (type == DoorType.TripleShot || type == DoorType.BulletSizeUp) valueText.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)

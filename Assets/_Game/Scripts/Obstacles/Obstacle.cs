@@ -36,7 +36,18 @@ public class Obstacle : MonoBehaviour
         }
         if (other.CompareTag("Gun"))
         {
-            if (!GameManager.isGameFinished) LevelManager.LevelFailed();
+            if (CollectableManager.shield <= 0)
+            {
+                if (!GameManager.isGameFinished) LevelManager.LevelFailed();
+            }
+            else
+            {
+                CollectableManager.RemoveShield(1);
+
+                Explosion();
+
+                CollectableManager.AddCoin(coin);
+            }
         }
     }
 

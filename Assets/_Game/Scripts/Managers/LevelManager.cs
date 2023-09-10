@@ -28,9 +28,9 @@ public class LevelManager : MonoBehaviour
 
     public static void NextLevel()
     {
-        level++;
-
         if (currentLevel) Destroy(currentLevel);
+
+        level++;
 
         GameObject selectedLevel = levels[level % levels.Count];
 
@@ -51,6 +51,8 @@ public class LevelManager : MonoBehaviour
     public static void RetryLevel()
     {
         if (currentLevel) Destroy(currentLevel);
+
+        level++;
 
         GameObject selectedLevel = levels[level % levels.Count];
 
