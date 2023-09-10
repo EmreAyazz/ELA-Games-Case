@@ -16,11 +16,6 @@ public class BulletManager : MonoBehaviour
     GameObject bullet;
     BulletLoc oldLoc;
 
-    private void Start()
-    {
-        Load();
-    }
-
     private void Update()
     {
         if (GameManager.controling) return;
@@ -134,7 +129,7 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    public void Load()
+    public static void Load()
     {
         BulletLoc[] bulletlocs = GameActor.Instance.bullets.transform.GetComponentsInChildren<BulletLoc>();
 

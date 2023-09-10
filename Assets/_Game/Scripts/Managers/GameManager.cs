@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
                         newBullet.GetComponent<Bullet>().level = gun.GetComponent<Gun>().level;
                         newBullet.GetComponent<Bullet>().Range(range);
 
-                        newBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[gun.GetComponent<Gun>().level];
+                        newBullet.GetComponent<Renderer>().material = GameActor.Instance.bulletLevels[gun.GetComponent<Gun>().level - 1];
 
                         if (bulletSizeUp) newBullet.transform.localScale = newBullet.transform.localScale * 2f;
                     }
